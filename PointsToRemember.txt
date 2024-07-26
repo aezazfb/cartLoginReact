@@ -1,0 +1,237 @@
+- npx create-react-app my-project1
+cd my-project1
+code . 		#for opening the Folder in Visual Studio (else npm start)
+
+
+-node-modules	#Contains dependencies, no changes required
+
+-public	#Files for the browser
+
+-src	#Contains components, js files and data for rendering to browser/public file (index.html)
+
+
+-- Delete reportWebVitals.js (performance file, not needed) and removed reportWebVitals() from src/index.js
+-- Delete setupTest.js
+-- React.Strict means Reporting of Warnings in console log if any
+-- package.json contains the data of dependencies and scripts etc
+
+-- npm install	#This command installs the dependencies mentioned in the package.json	(useful in cloning projects)
+
+-React Uses JSX (looks like html, but it is not), babble (transpiler) converts to html and renders to the DOM.
+
+-- import React from 'react' in App.js	#for older versions than 17
+
+-- in src folder create a file (fileName.js, with .js extension), create function like below,
+function MyApp() {
+  return (
+    <div className="App">
+        <div className="mycontent">
+            <h1>myFirst Component</h1>
+        </div>
+      </div>
+  );
+}
+
+export default MyApp;
+
+#export default MyApp is important for making component usable in other files (import MyApp from './fileName';)
+
+-- variables are declared before the return keyword of the function!
+
+-- { } for using the variable or dynamic value in jsx (div etc)
+
+
+	!!!-------A module cannot have multiple default exports.
+	!!!-------Component Function should start with capital letter for export! ->	function MyApp() {}
+	#SFC => Statelss Functional Component
+
+				/// STYLING IMPS ////
+
+	### React add all styles in head, so any styling can be used any where ###
+
+	# For In-Line css, we can use dynamic values as well, 
+	
+<a style="color:black" href="/"> myword</a>
+<a style={{
+color: gray,
+backgroundColor: Red
+} href="/"> myword</a>	// javascript object inside Style and dynamic value. 
+
+		//////			//////
+
+
+				--------	Functionalities	---------
+const handlefoRbtn = () => {
+        console.log('Hello Baby')
+    }
+
+#handleFor	is used for naming convention
+
+<Button onClick={handlefoRbtn} variant="contained">Chal bey shaat yahn se</Button>
+
+	# if we use handlefoRbtn() instead of handlefoRbtn it will call the function without/before/onloading click!
+
+	# For calling functions with input we wrap it in another function, we can use arrow function for convienience..
+
+const handleParaFunc = (input)=>{
+        console.log(' yo -> ' + input)
+    }
+
+<button onClick={()=> handleParaFunc(' I am Input ')}> Click for input functiona</button>
+
+............ events in a function ..........
+
+	# first argument will automatically be event if parameter not provided.
+
+const handlefoRbtn = (e) => {
+        console.log('Hello Baby', e)
+    }
+
+<Button onClick={handlefoRbtn} variant="contained">Chal bey shaat yahn se</Button>
+
+const handleParaFunc = (input, e)=>{
+        console.log(' yo -> ' + input + e.target)
+    }
+
+<button onClick={(evnt)=> handleParaFunc(' I am Input ', evnt)}> Click for input functiona</button>
+
+
+................. StateChanging, updating value (hooks) ...............
+
+	#This doesn't change the state/visible value/Ui
+
+<button onClick={stateChangerfn}>ForChange!</button>
+
+let myvar = 'Axy'
+    const stateChangerfn = () => {
+        myvar ='Axy is changed!'
+    }
+
+
+	#This will change the state/visible value/Ui
+
+import { useState } from 'react';
+
+const [myVal, mychangedVal] = useState('Default') 	//
+
+const stateChangerfn = () => {
+         myvar ='Test is changed!';
+        mychangedVal('ValueToBeChanged'); //	const [myVal, mychangedVal] = useState('Default')
+    }
+
+<button onClick={stateChangerfn}>ForChange!</button>
+
+	# for Ui use firstValue of array
+<div>{myvar + myVal}</div>		//here myVal is mainValue const [myVal, mychangedVal] = useState('Default')
+
+
+
+
+
+
+---------------Using useeffect -----------------------
+import { useState, useEffect } from "react";
+
+Simple useffect which will bE executed at ecery render ...
+
+useEffect( ()=>{	console.log("USe effect is executing after every render...") }    )
+
+-----
+
+But if we pass an empty array in useEffect as a parameter, it will execute once in the beginging.....
+
+useEffect( ()=>{	console.log("USe effect is executing after every render...") }, []  )
+
+----
+
+And if we pass an array of variables in useEffect as a parameter, it will be executed once in the beginging and on the state change of those variables.....
+
+	//Here on setChangevar1 or setChangevar2 or setChangevar3, useEffect will be executed!
+
+
+useEffect( ()=>{	console.log("USe effect is executing after every render...") }, [var1, var2, var3]  ) 
+
+------------Example code for above
+
+    const [var1, setVar1] = useState("var1");
+    const [var2, setVar2] = useState("var2");
+    const [var3, setVar3] = useState("var3");
+
+    useEffect(
+        ()=>{
+            console.log("USe effect is executing after every render...");
+        },
+        [var1, var2, var3]
+    );
+    
+    return ( 
+        <div className="home">
+            
+            <br></br>
+            <p> {var1}</p>
+            <br></br>
+            
+            <p> {var2}</p>
+            <br></br>
+            
+            <p> {var3}</p>
+            <br></br>
+
+            <button onClick={ () => setVar1("Lial")}> Btn1</button>
+            
+            <br></br>
+            <button onClick={ () => setVar2(Math.random())}> Btn2</button>
+            
+            <br></br>
+            <button onClick={ () => setVar3("THirdya")}> Btn3 </button>
+        </div>
+         );
+
+--------------------------------------------Using fetch() in useEffect----------------------------
+
+const [promos, setPromos] = useState(null);
+    useEffect(
+        () => {
+            fetch("https://admin-api.quick-serve.net/api/PromoCode?pagination%5Bpage%5D=1&pagination%5Bpages%5D=15&pagination%5Bperpage%5D=10&pagination%5Btotal%5D=146&query=",
+                {
+                    method: 'GET',
+                    //mode: 'no-cors',
+                    headers: new Headers(
+                        {
+                            'Content-Type': "application/json; charset=utf-8",
+                            'api-key': '334af99c-f292-49a0-8e9f-d08a07adb0c6',
+                        }
+                    ),
+
+                }
+            ).then(
+                res => {
+                    return res.json();
+                }
+            ).then(
+                data => {
+                    console.log(data);
+                    setPromos(data);
+                    console.log(promos);
+                }
+            )
+
+        }, []
+    );
+
+----
+return ( 
+        <div className="promos">
+            <Card>
+                <p> HEllo Dear!</p>
+                
+	//Must provide attribute key = {} in div otherwise it will not map the data
+
+                {promos && <div>{promos.map((pm) => <div key={pm.promoId}> 	
+                <p>{pm.promoCode +  " and its id => " + pm.promoId}</p> </div>)}</div>}
+            </Card>
+        </div>
+     );
+
+
+------------------------fetch() end --------------------------
