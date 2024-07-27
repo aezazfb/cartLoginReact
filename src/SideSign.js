@@ -13,6 +13,8 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import axios from 'axios';
+import CategoryPage from './CategoryForm';
+import { useNavigate } from 'react-router-dom';
 
 
 function Copyright(props) {
@@ -33,6 +35,10 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function SignInSide() {
+  localStorage.removeItem('token');
+  
+  const navigate = useNavigate();
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -58,6 +64,8 @@ export default function SignInSide() {
         console.log(`Login successful! Welcome ${response.data.user.firstName}`);
         // You can store the token or user info in localStorage or context
         localStorage.setItem('token', response.data.token);
+        
+        navigate('/category');
         // Redirect or update the UI accordingly
       } else {
         // Handle other responses

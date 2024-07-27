@@ -1,0 +1,22 @@
+User 
+Login screen 
+  UserName   Password   UserType(DDL Admin, Guest)   Validation Onsuccess   Store Token   
+Redirect To Category Screen
+ OnFail   Alert --> Invalid credentials
+ 
+  Category Form   CRUD(each components, Pass param from one components to another)  
+   Category Fields   
+    Category Id(PK)     CatrgoryName (string, length 20)     Description  (sring, length 100 )   
+    Image(Fileupload)     
+  Image in Byte     Image Url   
+    ImageName     ImageFormat   
+  Store Image in Db  
+   Store Image on cloud
+   and store url in taable SubCategory Form 
+     Only Display list of subcat(Pass category id into sub category components as input param)
+   
+    Product Form  
+     Product CRUD  
+     ProuductID   ProductName   Amount   SubCategoryID 
+    
+    AddToCart Form   Show Item in Cart along with Qty, amount,   Total Amount Submit--> Pass cart to api BackEnd Api   UserLogin   Category CRUD   SubCategory CRUD   Product CRUD   AddTocart   JWT implement   Authorization, Authentication   //Claim based Read DB   Only static List in WEbapi(No need to create DB)

@@ -2,6 +2,7 @@
   "name": "cartlogin",
   "version": "0.1.0",
   "private": true,
+  "homepage": "http://localhost:3000/login",
   "dependencies": {
     "@emotion/react": "^11.13.0",
     "@emotion/styled": "^11.13.0",
