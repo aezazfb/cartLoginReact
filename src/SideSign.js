@@ -1,8 +1,10 @@
-import * as React from 'react';
+import { useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
+import Alert from '@mui/material/Alert';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
+// import Alert from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
@@ -13,7 +15,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import axios from 'axios';
-import CategoryPage from './CategoryForm';
+// import CategoryPage from './CategoryForm';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -36,6 +38,8 @@ const defaultTheme = createTheme();
 
 export default function SignInSide() {
   localStorage.removeItem('token');
+
+  const [successMessage, setSuccessMessage] = useState("");
   
   const navigate = useNavigate();
 
@@ -63,13 +67,20 @@ export default function SignInSide() {
         // Handle successful login
         console.log(`Login successful! Welcome ${response.data.user.firstName}`);
         // You can store the token or user info in localStorage or context
-        localStorage.setItem('token', response.data.token);
-        
-        navigate('/category');
+        // localStorage.setItem('token', response.data.token);
+        setSuccessMessage("Logged in Successfully!");
+        setTimeout(()=>{
+          setSuccessMessage("");
+          localStorage.setItem('token', response.data.token);
+          navigate('/category');
+        },
+         1500);
         // Redirect or update the UI accordingly
       } else {
         // Handle other responses
         console.log(`Login failed: ${response.data.message}`);
+        setSuccessMessage(`Login failed: ${response.data.message}`);
+        setTimeout(()=>setSuccessMessage(""), 1500);
       }
     } catch (error) {
       // Handle errors
@@ -77,10 +88,13 @@ export default function SignInSide() {
     }
   };
 
+  
+
 
 
   return (
     <ThemeProvider theme={defaultTheme}>
+      
       <Grid container component="main" sx={{ height: '100vh' }}>
         <CssBaseline />
         <Grid
@@ -107,6 +121,7 @@ export default function SignInSide() {
               alignItems: 'center',
             }}
           >
+            {successMessage && <Box> <Alert severity="success">{successMessage}</Alert> </Box>}
             <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
               <LockOutlinedIcon />
             </Avatar>

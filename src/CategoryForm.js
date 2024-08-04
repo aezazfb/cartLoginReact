@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useEffect, useState } from 'react';
 import { TextField, Button, Box, Alert } from '@mui/material';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -12,12 +12,18 @@ const CategoryPage = () => {
 
   const navigate = useNavigate();
 
-  const [successMessage, setSuccessMessage] = React.useState("");
+  useEffect(
+    ()=>{
+      console.log(tokenAvailable);
+    }, []
+  )
+
+  const [successMessage, setSuccessMessage] = useState("");
 
   const validationSchema = Yup.object({
     catrgoryName: Yup.string().required('Category Name is required'),
     description: Yup.string().required('Description is required'),
-    image: Yup.string().required('Image is required'),
+    image: Yup.mixed().required('A file is required'),
     imageUrl: Yup.string().required('Image URL is required'),
   });
 
@@ -25,7 +31,7 @@ const CategoryPage = () => {
     initialValues: {
       catrgoryName: '',
       description: '',
-      image: '',
+      image: null,
       imageUrl: '',
     },
 
@@ -34,6 +40,13 @@ const CategoryPage = () => {
       console.log(values);
       // Handle form submission
       try {
+        const formData = new FormData();
+        formData.append('categoryName', values.catrgoryName);
+        formData.append('description', values.description);
+        formData.append('imageUrl', values.imageUrl);
+        formData.append('image', values.image);
+        
+        //post formdata for upload data..
         const response = await axios.post('https://localhost:7094/api/Category/Add', values, {
           headers: {
             'Content-Type': 'application/json',
@@ -65,9 +78,12 @@ const CategoryPage = () => {
     },
   });
 
+  const fileHandler = (event) => {
+    formik.setFieldValue('image', event.target.files[0]);
+  }
 
-
-  console.log(tokenAvailable);
+  
+  
   return (
     tokenAvailable ?
       (<div>
@@ -113,18 +129,11 @@ const CategoryPage = () => {
               error={formik.touched.description && Boolean(formik.errors.description)}
               helperText={formik.touched.description && formik.errors.description}
             />
-            <TextField
-              margin="normal"
-              fullWidth
-              id="image"
-              label="Image"
-              name="image"
-              autoComplete="image"
-              value={formik.values.image}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={formik.touched.image && Boolean(formik.errors.image)}
-              helperText={formik.touched.image && formik.errors.image}
+            <input
+              type='file'
+              name='image'
+              onChange={fileHandler}
+              style={{ display: 'block', margin: '20px 0' }}
             />
             <TextField
               margin="normal"
