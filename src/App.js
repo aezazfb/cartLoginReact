@@ -4,6 +4,7 @@ import SignInSide from './SideSign';
 import { BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import CategoryPage from './CategoryForm';
 import PrivateRoute from './PrivateRoute';
+import FileUpload from './FileDownload';
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         
         <Route path='/login'element={<SignInSide />}/>
         <Route path='/category'element={<CategoryPage />}/>
+        <Route path='/downloads'element={<FileUpload />}/>
 
       </Routes>
       </div>
