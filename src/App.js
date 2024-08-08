@@ -5,11 +5,13 @@ import { BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import CategoryPage from './CategoryForm';
 import PrivateRoute from './PrivateRoute';
 import FileUpload from './FileDownload';
+import NotificationComponent from './NotificationTemplate';
 
 function App() {
   return (
     <Router>
       <div className='App'>
+        <NotificationComponent />
       <Routes>
         
         <Route path='/login'element={<SignInSide />}/>
