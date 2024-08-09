@@ -46,40 +46,40 @@ const CategoryPage = () => {
         formData.append('imageUrl', values.imageUrl);
         //formData.append('image', values.image);
         
-        const formData2 = new FormData();
-          formData2.append('file', values.image);
-          const response2 = await axios.post('https://localhost:7094/api/Category/uploadfile', formData2, {
-            headers: {
-              'Content-Type': 'multipart/form-data',
-            },
-          });
+        // const formData2 = new FormData();
+        //   formData2.append('file', values.image);
+        //   const response2 = await axios.post('https://localhost:7094/api/Category/uploadfile', formData2, {
+        //     headers: {
+        //       'Content-Type': 'multipart/form-data',
+        //     },
+        //   });
 
-          if(response2.status == 200){
-            console.log(`File created successful! Welcome ${response2.data}`);
-          } else {
-            // Handle other responses
-            console.log(`Creation failed: ${response2.data.message}`);
-          }
+        //   if(response2.status == 200){
+        //     console.log(`File created successful! Welcome ${response2.data}`);
+        //   } else {
+        //     // Handle other responses
+        //     console.log(`Creation failed: ${response2.data.message}`);
+        //   }
           
-        // //post formdata for upload data..
-        // const response = await axios.post('https://localhost:7094/api/Category/Add', formData, {
-        //   headers: {
-        //     'Content-Type': 'application/json',
-        //   },
-        // });
+        //post formdata for upload data..
+        const response = await axios.post('https://localhost:7094/api/Category/Add', formData, {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
 
-        // if (response.status === 200) {
-        //   // Handle successful login
-        //   console.log(`Category created successful! Welcome ${response.data}`);
+        if (response.status === 200) {
+          // Handle successful login
+          console.log(`Category created successful! Welcome ${response.data}`);
           
           
 
-        //   //navigate('/category');
-        //   // Redirect or update the UI accordingly
-        // } else {
-        //   // Handle other responses
-        //   console.log(`Creation failed: ${response.data.message}`);
-        // }
+          //navigate('/category');
+          // Redirect or update the UI accordingly
+        } else {
+          // Handle other responses
+          console.log(`Creation failed: ${response.data.message}`);
+        }
       } catch (error) {
         // Handle errors
         console.log(`An error occurred: ${error.response ? error.response.data.message : error.message}`);
